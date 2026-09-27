@@ -1,0 +1,217 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap');
+:root{
+    --body_gradient1 :linear-gradient(135deg , #4AB1FF , #810CA8);
+    --body_gradient2 : linear-gradient(135deg, #7d21ff, #fe5f20);
+    --body_gradient3 : linear-gradient(135deg, #ffa464, #b90047);
+    --themecolor : #951414
+}
+::selection{
+    color: white;
+    background-color: rgb(205, 42, 255);
+}
+*{
+    margin: 0;
+    padding: 0;
+    font-family: "Roboto", sans-serif;
+    font-size: 14px;
+    font-weight: 600;
+    color: rgb(67, 67, 67);
+}
+body{
+    width: 100%;
+    height: 100vh;
+    overflow: hidden;
+    background : var(--body_gradient3);
+}
+
+.container{
+    max-width: 50rem;
+    padding: 2.7rem 0.5rem 2.7rem;
+    margin: 11rem auto ;
+    /*margin-top: 5rem;*/
+    background-color: whitesmoke;
+    border-radius: 0.8rem;
+    box-shadow: 0 1rem 3rem rgba(0,0,0,0.1);
+}
+.task_input{
+    height: 3rem;
+    padding: 0 1.8rem;
+    position: relative;
+}
+.task_input > img {
+    height: 1.5rem;
+    top: 50%;
+    right: 8%;
+    position: absolute;
+    transform: translate(1.7rem , -50%);
+    opacity: 0.5;
+}
+
+.task_input > input {
+    height: 100%;
+    width: 97%;
+    outline: none;
+    font-size: 1.2rem;
+    border-radius: 0.5rem;
+    border: 0.1rem solid rgb(86, 86, 86);
+    padding: 0 0.5rem 0 1rem;  
+}
+.task_input input:focus , 
+.task_input input.active {
+    padding-left: 1rem;
+    border: 0.13rem solid rgb(86, 86, 86);
+    border: 0.15rem solid var(--themecolor);
+    color: rgb(62, 62, 62);
+}
+.task_input input::placeholder{
+    color: rgb(142, 142, 142);
+}
+
+.controls , li{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+.controls {
+    padding: 1.4rem 1.3rem;
+    border-bottom: 0.09rem solid rgb(152, 152, 152);
+}
+.filters span{
+    margin: 0 0.9rem;
+    font-size: 1.07rem;
+    cursor: pointer;
+}
+.filters .active{
+    color: var(--themecolor);
+    font-weight: 700;
+}
+
+.controls .clear_btn{
+    border: none;
+    outline: none;
+    cursor: pointer;
+    color: white;
+    background-color: var(--themecolor);
+    border-radius: 0.8rem;
+    font-size: 1rem;
+    font-weight: 450;
+    padding: 0.3rem 1rem;
+    margin-right: 0.5rem;
+    letter-spacing: 0.2px;
+    transition: transform 0.25s ease;
+    pointer-events: auto;
+}
+.clear_btn {
+    opacity: 0.5;
+    pointer-events: none;
+}
+
+.clear_btn.active {
+    opacity: 0.9;
+    pointer-events: auto;
+} 
+.clear_btn:active {
+    transform: scale(0.93);
+}
+
+.task input[type="checkbox"] {
+    accent-color: var(--themecolor);
+}
+
+.task_menu > li > img {
+    height: 1.2rem;
+}
+
+.task_box{
+    margin-top: 1.8rem;
+    margin-left: 0.8rem;
+    padding: 0 1.2rem 1rem 1rem;
+}
+.task_box .task{
+    list-style-type: none;
+    margin-bottom: 1.5rem;
+    padding-bottom: 1rem;
+    display: flex;
+    align-items: flex-start;
+    border-bottom: 0.1rem solid rgb(180, 180, 180);
+}
+.task_box .task:last-child{
+    margin-bottom: 0;
+    padding-bottom: 0;
+    border-bottom: none;
+}
+.task_box .task label{
+    display: flex;
+    /*align-items: flex-start;*/
+    gap: 10px;
+}
+/*.task label input{
+    margin-top: 0.2rem;
+}*/
+.task label p {
+    user-select: none;
+    word-break: break-word;
+}
+.task label p.checked{
+    text-decoration: line-through;
+}
+.task_box .settings {
+    position: relative;
+}
+
+.task_box .settings > img {
+    height: 18px;
+}
+.settings :where(i , li){
+    cursor: pointer;
+}
+
+
+.settings .task_menu{
+    z-index: 10;
+    right: -0.5rem;
+    bottom: -2rem;
+    padding: 0.6rem 0rem;
+    position: absolute;
+    transform: scale(0);
+    transform-origin: top right;
+    transition: transform 0.2s ease;
+    border-radius: 0.6rem;
+    background-color: rgb(232, 229, 229);
+
+}
+.task_box .task:last-child .task_menu{
+    bottom: 1rem;
+    transform-origin: bottom right;
+}
+.task_box .task:first-child .task_menu {
+    bottom: -2em;
+    transform-origin: top right;
+}
+
+/*.settings:hover .task_menu {
+    transform: scale(1);
+}*/
+
+.task_menu.show{
+    transform: scale(1);
+}
+.task_menu li {
+    margin: 0.1rem;
+    padding: 0.1rem 0.9rem;
+    height: 1.8rem;
+    justify-content: flex-start;
+    gap: 2px;
+}
+.settings li:hover {
+    background-color: rgb(211, 210, 210);
+}
+
+
+
+
+
+
+
+
+

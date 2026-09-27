@@ -1,0 +1,187 @@
+getting local storage for todolist :
+>> let todos = JSON.parse(localStorage.getItem("ToDo-List"));
+
+data stored in the browser's localStorage with the key "ToDo-List".
+Eg: "ToDo-List" : '[{"name":"Study JavaScript","status":"pending"}]'
+Data from localStorage is returned as a string.
+
+JSON.parse() converts a JSON string into a real JavaScript value/object.
+
+For example:
+let data = '[{"name":"Study JavaScript","status":"pending"}]';
+
+After: JSON.parse(data);
+
+It becomes a real JavaScript array containing an object:
+[
+    {
+        name: "Study JavaScript",
+        status: "pending"
+    }
+]
+Now JavaScript can easily work with the array and its objects.
+
+--------------------------------------
+
+STEP-1:
+User types a task
+        ↓
+User presses Enter
+        ↓
+keyup event runs
+        ↓
+Remove extra spaces using trim()
+        ↓
+Check: Enter pressed AND task is not empty?
+        ↓
+    YES
+        ↓
+Are we editing a task?
+      ↙        ↘
+    NO          YES
+    ↓            ↓
+Create new     Update existing
+task object       task
+    ↓            ↓
+Add to todos    Change todos[editId]
+        ↓
+Clear input
+        ↓
+Save todos in localStorage
+        ↓
+Call showtodolist("all")
+        ↓
+Updated list appears on screen
+
+
+Code Explanation:
+e.key - tells us which key was pressed.
+
+>>if (e.key == "Enter" && usertask) 
+
+First: e.key == "Enter" -->> Checks whether the user pressed the Enter key.
+Second: usertask -->> Checks whether usertask contains some text.
+In JavaScript, a non-empty string is considered true.
+Therefore, this prevents the user from adding an empty task.
+
+>> if (!isEditableTask) {
+If the user is not editing an existing task, a new task is created.
+The new task is stored as an object and added to the todos array.
+If isEditableTask is true, the code updates the selected task instead.
+
+Finally, the input is cleared, the updated todos array is saved to localStorage, and the task list is refreshed
+LocalStorage can only store strings.
+Therefore:> JSON.stringify(todos) > converts the JavaScript array into a JSON string.
+
+
+-------------------------------
+
+
+Step1 & step6 relation:
+isEditableTask is initially false, so pressing Enter adds a new task. When the user clicks Edit, Step 6 changes it to true, indicating that an existing task is being edited. After the user presses Enter and the task is updated in Step 1, and else block runs and it is changed back to false so future input creates new tasks again.
+       
+       isEditableTask
+       ┌──────┴──────┐
+     false          true
+       ▼             ▼
+   ADD MODE       EDIT MODE
+       ▼             ▼
+  todos.push()   todos[editId].name =
+                 usertask
+       │             │
+       │             ▼
+       │       isEditableTask = false
+       └───────◄─────┘
+          ADD MODE
+
+
+----------------------------------------------------
+
+STEP-2:
+showtodolist(filterr)
+        ▼
+ Check whether todos exists
+ and has tasks
+   ┌────┴────┐
+  YES        NO
+   ▼         ▼
+Enable     Disable
+Clear All  Clear All
+   ▼
+Loop through every task
+   ▼
+Check task status
+   ▼
+Is task completed?
+ ┌─┴────────────┐
+YES             NO
+ ▼              ▼
+"checked"       " "
+
+   └──────┬───────┘
+          ▼
+ Check filter
+   ┌──────┴──────┐
+Matches       "all"
+status           │
+   └──────┬──────┘
+          ▼
+ Create HTML <li>
+ for the task
+          ▼
+     Add to liTag
+          ▼
+ taskbox.innerHTML = liTag
+          ▼
+     Tasks displayed
+
+
+EXPLANATION:
+
+filterr -> tells function which tasks should be displayed (eg. "all" , "completed","pending")
+
+>> if (todos && todos.length > 0)
+This checks two things:  todos exists AND todos contains at least one task.
+
+>> todos.forEach((todo, id) => {...}
+
+For example :
+todos = [
+    { name: "Study HTML", status: "pending" },
+    { name: "Study CSS", status: "completed" }
+];
+
+During the loop:
+First iteration:
+todo = { name: "Study HTML", status: "pending" }
+id = 0
+Second iteration:
+todo = { name: "Study CSS", status: "completed" }
+id = 1
+
+So : id = index and todo = object in array ,todos
+
+
+>> let isCompleted = todo.status == "completed" ? "checked" : "";
+Check whether the task is completed.
+If status is "completed" --->>> isCompleted = "checked"
+Otherwise --->>> isCompleted = ""
+
+>> if (filterr == todo.status || filterr == "all")
+
+For example:
+
+filterr = "completed"
+todo.status = "completed"
+          ↓
+       MATCH ✓
+          ↓
+   Display the task
+   
+But:
+filterr = "completed"
+todo.status = "pending"
+          ↓
+       NO MATCH ✗
+          ↓
+    Don't display it
